@@ -1,0 +1,37 @@
+health:
+  get:
+    operationId: getHealth
+    security: []
+    tags: [system]
+    summary: Состояние сервера
+    description: Отвечает, если процесс сервера запущен. Используется для проверки живости.
+    responses:
+      "200":
+        description: Сервер работает.
+        content:
+          application/json:
+            schema:
+              $ref: ../openapi.yaml#/components/schemas/HealthResponse
+
+ready:
+  get:
+    operationId: getReady
+    security: []
+    tags: [system]
+    summary: Готовность к работе
+    description: |
+      Проверяет доступность базы данных. Используется healthcheck'ом docker compose:
+      пока ответ не `200`, контейнер не считается здоровым.
+    responses:
+      "200":
+        description: Сервер и база данных доступны.
+        content:
+          application/json:
+            schema:
+              $ref: ../openapi.yaml#/components/schemas/ReadyResponse
+      "503":
+        description: База данных недоступна.
+        content:
+          application/json:
+            schema:
+              $ref: ../openapi.yaml#/components/schemas/ReadyResponse

@@ -1,0 +1,63 @@
+openapi: 3.1.0
+info:
+  title: UniTrack API
+  version: 0.1.0
+  license:
+    name: Proprietary
+    identifier: LicenseRef-Proprietary
+  description: |
+    API системы учёта посещаемости UniTrack.
+    Контракт пишется первым и является единственным источником типов
+    для сервера (Go), веб-панели (TypeScript) и Android-приложения (Kotlin).
+    Правила ведения контракта — в `api/README.md`.
+servers:
+  - url: /api/v1
+    description: Относительный путь; nginx проксирует его на сервер API.
+security:
+  - bearerAuth: []
+tags:
+  - name: system
+    description: Служебные операции — состояние сервера и готовность к работе.
+
+paths:
+  /health:
+    $ref: ./paths/health.yaml#/health
+  /ready:
+    $ref: ./paths/health.yaml#/ready
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Access-токен (JWT, 15 минут). Выдаётся при входе; появляется на этапе 1.
+  schemas:
+    HealthResponse:
+      type: object
+      description: Сервер запущен и отвечает. Не проверяет базу данных.
+      required: [status, version]
+      properties:
+        status:
+          type: string
+          enum: [ok]
+          description: Всегда `ok`, если сервер ответил.
+        version:
+          type: string
+          description: Версия сборки сервера (из тега git или `dev`).
+          examples: ["0.1.0"]
+    ReadyResponse:
+      type: object
+      description: Готовность обслуживать запросы, включая доступность базы данных.
+      required: [status, database]
+      properties:
+        status:
+          type: string
+          enum: [ok, degraded]
+          description: "`ok` — всё доступно; `degraded` — хотя бы одна зависимость недоступна."
+        database:
+          type: string
+          enum: [ok, unavailable]
+          description: Состояние подключения к PostgreSQL.
+    Problem:
+      $ref: ./components/problem.yaml#/Problem

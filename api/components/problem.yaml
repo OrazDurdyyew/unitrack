@@ -1,0 +1,31 @@
+Problem:
+  type: object
+  description: |
+    Описание ошибки по RFC 9457 (Problem Details). Отдаётся с `Content-Type: application/problem+json`.
+    Поле `code` — машинный код для перевода сообщения на клиенте.
+  required: [type, title, status, code]
+  properties:
+    type:
+      type: string
+      format: uri
+      description: Ссылка на описание класса ошибки; `about:blank`, если отдельной страницы нет.
+      examples: ["about:blank"]
+    title:
+      type: string
+      description: Короткое человекочитаемое название ошибки.
+      examples: ["Ресурс не найден"]
+    status:
+      type: integer
+      description: HTTP-статус, дублирует статус ответа.
+      examples: [404]
+    detail:
+      type: string
+      description: Подробности для этого конкретного случая.
+    instance:
+      type: string
+      description: Путь запроса, на котором произошла ошибка.
+      examples: ["/api/v1/reports/123"]
+    code:
+      type: string
+      description: Машинный код ошибки в snake_case, стабильный между версиями.
+      examples: ["not_found"]

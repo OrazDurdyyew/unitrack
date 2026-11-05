@@ -1,0 +1,6 @@
+# Настройки проверки контракта API (redocly lint).
+extends:
+  - recommended
+rules:
+  # Служебные операции health/ready не имеют 4xx-ответов по смыслу.
+  operation-4xx-response: off
