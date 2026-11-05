@@ -1,0 +1,55 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "plugins": ["stylelint-declaration-strict-value", "stylelint-order"],
+  "ignoreFiles": ["src/shared/ui/tokens.css", "dist/**", "node_modules/**"],
+  "rules": {
+    "scale-unlimited/declaration-strict-value": [
+      [
+        "/color/",
+        "fill",
+        "stroke",
+        "background",
+        "background-color",
+        "border",
+        "border-color",
+        "border-top-color",
+        "border-bottom-color",
+        "border-left-color",
+        "border-right-color",
+        "outline-color",
+        "box-shadow",
+        "font-family",
+        "font-size",
+        "border-radius"
+      ],
+      {
+        "ignoreValues": [
+          "transparent",
+          "inherit",
+          "currentColor",
+          "currentcolor",
+          "none",
+          "0",
+          "initial",
+          "unset",
+          "auto"
+        ],
+        "message": "Используйте токен из shared/ui/tokens.css (var(--…)), а не сырое значение"
+      }
+    ],
+    "selector-class-pattern": [
+      "^[a-z]([a-z0-9-]+)?(__([a-z0-9]+-?)+)?(--([a-z0-9]+-?)+){0,2}$",
+      { "message": "Класс должен следовать БЭМ: block__element--modifier" }
+    ],
+    "order/properties-alphabetical-order": null,
+    "custom-property-pattern": null,
+    "declaration-empty-line-before": null,
+    "no-descending-specificity": null
+  },
+  "overrides": [
+    {
+      "files": ["**/*.vue"],
+      "customSyntax": "postcss-html"
+    }
+  ]
+}

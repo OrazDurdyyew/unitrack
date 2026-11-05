@@ -1,0 +1,22 @@
+/* Базовые стили приложения на токенах. Шрифт Inter подключается из пакета @fontsource-variable/inter в main.ts. */
+body {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-md);
+  line-height: 1.45;
+  color: var(--color-ink-900);
+  background: var(--color-bg-default);
+}
+
+a {
+  color: var(--color-green-700);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-green-600);
+  outline-offset: 2px;
+}

@@ -1,0 +1,33 @@
+# Команды веб-панели. Вызываются из корня как `task web:<имя>`.
+version: '3'
+
+tasks:
+  install:
+    desc: Установить зависимости
+    cmds:
+      - pnpm install --frozen-lockfile
+
+  gen:
+    desc: Сгенерировать TypeScript-клиент из контракта
+    cmds:
+      - pnpm gen:api
+
+  lint:
+    desc: Проверка типов, ESLint, stylelint, Prettier
+    cmds:
+      - pnpm lint
+
+  test:
+    desc: Юнит-тесты (Vitest)
+    cmds:
+      - pnpm test
+
+  build:
+    desc: Собрать статику в dist/
+    cmds:
+      - pnpm build
+
+  dev:
+    desc: Dev-сервер Vite с прокси /api на localhost:8080
+    cmds:
+      - pnpm dev

@@ -1,6 +1,9 @@
 # Единые команды проекта. Подробности — в CLAUDE.md.
 version: '3'
 
+# Локальные переменные (TESTDB_URL, UNITRACK_*) — из backend/.env, см. backend/.env.example
+dotenv: ['backend/.env']
+
 includes:
   backend:
     taskfile: ./backend
@@ -8,7 +11,6 @@ includes:
   web:
     taskfile: ./web
     dir: ./web
-    optional: true
   infra:
     taskfile: ./infra
     dir: ./infra
@@ -19,29 +21,34 @@ tasks:
     desc: Установить инструменты и хуки для разработки
     cmds:
       - task: backend:tools
+      - task: web:install
 
   gen:
     desc: Сгенерировать всё, что генерируется (токены, код из контракта)
     cmds:
       - node design/build-tokens.mjs
+      - pnpm --package=@redocly/cli@2 dlx redocly bundle api/openapi.yaml -o api/openapi.bundle.yaml
       - task: backend:gen
+      - task: web:gen
 
   lint:
     desc: Линтеры всех частей
     cmds:
       - task: backend:lint
+      - task: web:lint
 
   test:
     desc: Тесты всех частей
     cmds:
       - node --test 'design/*.test.mjs'
       - task: backend:test
+      - task: web:test
 
   check:
     desc: Полная проверка, как в CI — генерация, чистота diff, линтеры, тесты
     cmds:
       - task: gen
-      - git diff --exit-code -- web/src/shared/ui/tokens.css backend/internal/api/gen
+      - git diff --exit-code -- web/src/shared/ui/tokens.css api/openapi.bundle.yaml backend/internal/api/gen web/src/shared/api/schema.d.ts
       - task: lint
       - task: test
 

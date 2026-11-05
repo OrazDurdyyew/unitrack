@@ -1,0 +1,9 @@
+{
+  "app": {
+    "name": "UniTrack"
+  },
+  "ui": {
+    "close": "Закрыть",
+    "loading": "Загрузка…"
+  }
+}
