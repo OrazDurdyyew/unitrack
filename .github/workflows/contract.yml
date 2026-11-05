@@ -1,0 +1,37 @@
+# Гарантия «контракт сначала»: сгенерированный код и токены совпадают с источниками.
+name: contract
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  generated-in-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: backend/go.mod
+          cache-dependency-path: backend/go.sum
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: web/pnpm-lock.yaml
+      - uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Зависимости веба
+        run: task web:install
+      - name: Проверка контракта
+        run: task api:lint
+      - name: Генерация
+        run: task gen
+      - name: Сгенерированное совпадает с закоммиченным
+        run: git diff --exit-code -- api/openapi.bundle.yaml backend/internal/api/gen web/src/shared/api/schema.d.ts web/src/shared/ui/tokens.css

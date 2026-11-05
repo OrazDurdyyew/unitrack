@@ -1,0 +1,45 @@
+name: backend
+
+on:
+  push:
+    branches: [main]
+    paths: ["backend/**", "api/**", ".github/workflows/backend.yml"]
+  pull_request:
+    paths: ["backend/**", "api/**", ".github/workflows/backend.yml"]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: unitrack_test
+          POSTGRES_PASSWORD: unitrack_test
+          POSTGRES_DB: unitrack_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U unitrack_test"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+    env:
+      TESTDB_URL: postgres://unitrack_test:unitrack_test@127.0.0.1:5432/unitrack_test?sslmode=disable
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: backend/go.mod
+          cache-dependency-path: backend/go.sum
+      - uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Инструменты
+        run: task backend:tools
+      - name: Линтер
+        run: task backend:lint
+      - name: Тесты
+        run: task backend:test
+      - name: Сборка образа
+        run: docker build --build-arg VERSION=${{ github.sha }} -t unitrack-api:ci backend

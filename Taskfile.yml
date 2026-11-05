@@ -21,7 +21,8 @@ tasks:
     cmds:
       - task: backend:tools
       - task: web:install
-      - '"$(go env GOPATH)/bin/lefthook" install'
+      - pnpm install --frozen-lockfile
+      - pnpm exec lefthook install
 
   gen:
     desc: Сгенерировать всё, что генерируется (токены, код из контракта)

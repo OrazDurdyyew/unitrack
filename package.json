@@ -1,0 +1,8 @@
+{
+  "name": "unitrack",
+  "private": true,
+  "description": "Корневой пакет только для git-хуков (lefthook). Код веба — в web/, генератор токенов — в design/.",
+  "devDependencies": {
+    "lefthook": "^1.13.6"
+  }
+}

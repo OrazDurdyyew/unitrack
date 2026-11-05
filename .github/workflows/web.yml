@@ -1,0 +1,36 @@
+name: web
+
+on:
+  push:
+    branches: [main]
+    paths: ["web/**", "api/**", "design/**", ".github/workflows/web.yml"]
+  pull_request:
+    paths: ["web/**", "api/**", "design/**", ".github/workflows/web.yml"]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: web/pnpm-lock.yaml
+      - uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Зависимости
+        run: task web:install
+      - name: Тесты генератора токенов
+        run: node --test 'design/*.test.mjs'
+      - name: Линтер
+        run: task web:lint
+      - name: Тесты
+        run: task web:test
+      - name: Сборка
+        run: task web:build

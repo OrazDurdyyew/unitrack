@@ -1,0 +1,57 @@
+# Pre-commit и pre-push хуки. Устанавливаются `task setup` (lefthook install).
+# Правило проекта: код, не прошедший проверки, в репозиторий не попадает — какая бы сессия его ни писала.
+
+pre-commit:
+  parallel: true
+  commands:
+    go-format:
+      glob: "backend/**/*.go"
+      root: backend/
+      run: |
+        out=$("$(go env GOPATH)/bin/gofumpt" -l {staged_files})
+        if [ -n "$out" ]; then echo "Не отформатировано (gofumpt -w):"; echo "$out"; exit 1; fi
+    go-lint:
+      glob: "backend/**/*.go"
+      root: backend/
+      run: '"$(go env GOPATH)/bin/golangci-lint" run --new-from-rev=HEAD ./...'
+    web-prettier:
+      glob: "web/**/*.{ts,vue,css,json,js}"
+      root: web/
+      exclude:
+        - web/src/shared/api/schema.d.ts
+        - web/src/shared/ui/tokens.css
+      run: pnpm exec prettier --check {staged_files}
+    web-eslint:
+      glob: "web/**/*.{ts,vue,js}"
+      root: web/
+      exclude:
+        - web/src/shared/api/schema.d.ts
+      run: pnpm exec eslint {staged_files}
+    web-stylelint:
+      glob: "web/**/*.{css,vue}"
+      root: web/
+      exclude:
+        - web/src/shared/ui/tokens.css
+      run: pnpm exec stylelint {staged_files}
+    tokens-in-sync:
+      glob: "design/tokens.json"
+      run: node design/build-tokens.mjs && git diff --exit-code -- web/src/shared/ui/tokens.css
+    contract-in-sync:
+      glob: "api/**/*.yaml"
+      run: task gen && git diff --exit-code -- api/openapi.bundle.yaml backend/internal/api/gen web/src/shared/api/schema.d.ts
+
+commit-msg:
+  commands:
+    conventional:
+      run: |
+        msg=$(head -n1 {1})
+        if ! echo "$msg" | grep -Eq '^(feat|fix|api|docs|infra|chore|test|refactor)(\([a-z0-9-]+\))?: .+'; then
+          echo "Сообщение коммита должно начинаться с префикса: feat|fix|api|docs|infra|chore|test|refactor, затем ': ' и описание на русском."
+          echo "Получено: $msg"
+          exit 1
+        fi
+
+pre-push:
+  commands:
+    tests:
+      run: task test
