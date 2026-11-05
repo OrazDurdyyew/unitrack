@@ -1,0 +1,143 @@
+openapi: 3.1.0
+info:
+  title: UniTrack API
+  version: 0.1.0
+  license:
+    name: Proprietary
+    identifier: LicenseRef-Proprietary
+  description: |
+    API системы учёта посещаемости UniTrack.
+    Контракт пишется первым и является единственным источником типов
+    для сервера (Go), веб-панели (TypeScript) и Android-приложения (Kotlin).
+    Правила ведения контракта — в `api/README.md`.
+servers:
+  - url: /api/v1
+    description: Относительный путь; nginx проксирует его на сервер API.
+security:
+  - bearerAuth: []
+tags:
+  - name: system
+    description: Служебные операции — состояние сервера и готовность к работе.
+paths:
+  /health:
+    get:
+      operationId: getHealth
+      security: []
+      tags:
+        - system
+      summary: Состояние сервера
+      description: Отвечает, если процесс сервера запущен. Используется для проверки живости.
+      responses:
+        '200':
+          description: Сервер работает.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+  /ready:
+    get:
+      operationId: getReady
+      security: []
+      tags:
+        - system
+      summary: Готовность к работе
+      description: |
+        Проверяет доступность базы данных. Используется healthcheck'ом docker compose:
+        пока ответ не `200`, контейнер не считается здоровым.
+      responses:
+        '200':
+          description: Сервер и база данных доступны.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadyResponse'
+        '503':
+          description: База данных недоступна.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadyResponse'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Access-токен (JWT, 15 минут). Выдаётся при входе; появляется на этапе 1.
+  schemas:
+    HealthResponse:
+      type: object
+      description: Сервер запущен и отвечает. Не проверяет базу данных.
+      required:
+        - status
+        - version
+      properties:
+        status:
+          type: string
+          enum:
+            - ok
+          description: Всегда `ok`, если сервер ответил.
+        version:
+          type: string
+          description: Версия сборки сервера (из тега git или `dev`).
+          examples:
+            - 0.1.0
+    ReadyResponse:
+      type: object
+      description: Готовность обслуживать запросы, включая доступность базы данных.
+      required:
+        - status
+        - database
+      properties:
+        status:
+          type: string
+          enum:
+            - ok
+            - degraded
+          description: '`ok` — всё доступно; `degraded` — хотя бы одна зависимость недоступна.'
+        database:
+          type: string
+          enum:
+            - ok
+            - unavailable
+          description: Состояние подключения к PostgreSQL.
+    Problem:
+      type: object
+      description: |
+        Описание ошибки по RFC 9457 (Problem Details). Отдаётся с `Content-Type: application/problem+json`.
+        Поле `code` — машинный код для перевода сообщения на клиенте.
+      required:
+        - type
+        - title
+        - status
+        - code
+      properties:
+        type:
+          type: string
+          format: uri
+          description: Ссылка на описание класса ошибки; `about:blank`, если отдельной страницы нет.
+          examples:
+            - about:blank
+        title:
+          type: string
+          description: Короткое человекочитаемое название ошибки.
+          examples:
+            - Ресурс не найден
+        status:
+          type: integer
+          description: HTTP-статус, дублирует статус ответа.
+          examples:
+            - 404
+        detail:
+          type: string
+          description: Подробности для этого конкретного случая.
+        instance:
+          type: string
+          description: Путь запроса, на котором произошла ошибка.
+          examples:
+            - /api/v1/reports/123
+        code:
+          type: string
+          description: Машинный код ошибки в snake_case, стабильный между версиями.
+          examples:
+            - not_found

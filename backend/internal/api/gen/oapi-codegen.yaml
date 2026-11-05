@@ -1,0 +1,10 @@
+# Настройки oapi-codegen: из api/openapi.yaml генерируются модели, интерфейс ServerInterface
+# для chi и встроенная спецификация. Файл api.gen.go не правится руками.
+package: gen
+output: api.gen.go
+generate:
+  chi-server: true
+  models: true
+  embedded-spec: true
+output-options:
+  skip-prune: true
