@@ -17,9 +17,11 @@
 
 ## В работе
 
-- Ничего. Этап 0 закрыт, ветка `main` опубликована.
+- Ничего. Этап 0 закрыт, ветка `main` опубликована, все три workflow CI (`backend`, `web`, `contract`) зелёные на коммите с правками после финальной ревизии.
 
 ## Следующее
+
+- Отложенные мелкие замечания финальной ревизии этапа 0 (не блокируют): `UNITRACK_MIGRATE_ON_START` вне `config.Load`; `Recover` не пробрасывает `http.ErrAbortHandler`; `httpserver.Problem` дублирует `gen.Problem`; nginx `proxy_pass` без `resolver`; версии GitHub Actions и сборка golangci-lint/sqlc из исходников в CI; commit-msg regex не пропускает Merge/Revert; `.gitignore` без `.vscode/*`; `describedBy()` в UiTextField → computed; UiDialog без описания; код ошибки вместо русской строки в `entities/system/api/health.ts`; `shadow.focus` с var() сломает генератор Kotlin (этап 7); `principles.md` не упоминает radius xs/full; `errcheck`/`bodyclose` выключены в тестах целиком; `vitest.config.ts` дублирует `vite.config.ts`; нет автотеста на правило границ FSD. Закрывать по пути на этапе 1, где код затрагивается.
 
 - **Этап 1 — контракт и ядро** (проектный документ §12, первая очередь): `openapi.yaml` для auth, users, structure, students, calendar, reasons, reports; Go-модули auth, users, structure, students, reasons, calendar с тестами; миграции; идемпотентность мутаций (`Idempotency-Key`); `shared/lib/access` на вебе.
 - Первым делом — план `docs/superpowers/plans/<дата>-stage-1-core.md` через брейншторм/writing-plans по проектному документу.
