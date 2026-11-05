@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(task *)",
+      "Bash(go build *)",
+      "Bash(go test *)",
+      "Bash(go vet *)",
+      "Bash(go generate *)",
+      "Bash(go mod tidy)",
+      "Bash(gofumpt *)",
+      "Bash(golangci-lint *)",
+      "Bash(pnpm lint*)",
+      "Bash(pnpm test*)",
+      "Bash(pnpm build*)",
+      "Bash(pnpm vitest *)",
+      "Bash(pnpm exec eslint *)",
+      "Bash(pnpm exec stylelint *)",
+      "Bash(pnpm exec prettier *)",
+      "Bash(pnpm gen:api)",
+      "Bash(node --test *)",
+      "Bash(node design/build-tokens.mjs)",
+      "Bash(docker compose *)",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git show*)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./backend/.env)",
+      "Read(./infra/.env)",
+      "Bash(git push --force*)",
+      "Bash(git push -f*)",
+      "Bash(rm -rf *)",
+      "Bash(docker compose * down -v*)"
+    ]
+  }
+}
