@@ -1,0 +1,56 @@
+# Единые команды проекта. Подробности — в CLAUDE.md.
+version: '3'
+
+includes:
+  backend:
+    taskfile: ./backend
+    dir: ./backend
+  web:
+    taskfile: ./web
+    dir: ./web
+    optional: true
+  infra:
+    taskfile: ./infra
+    dir: ./infra
+    optional: true
+
+tasks:
+  setup:
+    desc: Установить инструменты и хуки для разработки
+    cmds:
+      - task: backend:tools
+
+  gen:
+    desc: Сгенерировать всё, что генерируется (токены, код из контракта)
+    cmds:
+      - node design/build-tokens.mjs
+      - task: backend:gen
+
+  lint:
+    desc: Линтеры всех частей
+    cmds:
+      - task: backend:lint
+
+  test:
+    desc: Тесты всех частей
+    cmds:
+      - node --test 'design/*.test.mjs'
+      - task: backend:test
+
+  check:
+    desc: Полная проверка, как в CI — генерация, чистота diff, линтеры, тесты
+    cmds:
+      - task: gen
+      - git diff --exit-code -- web/src/shared/ui/tokens.css backend/internal/api/gen
+      - task: lint
+      - task: test
+
+  api:lint:
+    desc: Проверить контракт OpenAPI
+    cmds:
+      - pnpm --package=@redocly/cli@2 dlx redocly lint api/openapi.yaml
+
+  dev:
+    desc: Запустить окружение разработки
+    cmds:
+      - task: backend:dev
