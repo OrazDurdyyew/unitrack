@@ -5,5 +5,13 @@
   "ui": {
     "close": "Закрыть",
     "loading": "Загрузка…"
+  },
+  "pages": {
+    "home": {
+      "title": "UniTrack",
+      "subtitle": "Система учёта посещаемости",
+      "serverOk": "Сервер доступен, версия {version}",
+      "serverDown": "Сервер недоступен"
+    }
   }
 }

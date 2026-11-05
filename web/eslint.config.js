@@ -79,6 +79,7 @@ export default tseslint.config(
       'vue/component-api-style': ['error', ['script-setup']],
       'vue/no-bare-strings-in-template': 'error',
       'vue/multi-word-component-names': 'off',
+      'vue/require-default-prop': 'off',
       'vue/define-macros-order': [
         'error',
         { order: ['defineProps', 'defineEmits', 'defineModel'] },
