@@ -28,7 +28,7 @@ tasks:
     desc: Сгенерировать всё, что генерируется (токены, код из контракта)
     cmds:
       - node design/build-tokens.mjs
-      - pnpm --package=@redocly/cli@2 dlx redocly bundle api/openapi.yaml -o api/openapi.bundle.yaml
+      - pnpm --dir web exec redocly bundle ../api/openapi.yaml -o ../api/openapi.bundle.yaml
       - task: backend:gen
       - task: web:gen
 
@@ -56,7 +56,7 @@ tasks:
   api:lint:
     desc: Проверить контракт OpenAPI
     cmds:
-      - pnpm --package=@redocly/cli@2 dlx redocly lint api/openapi.yaml
+      - pnpm --dir web exec redocly lint ../api/openapi.yaml
 
   dev:
     desc: Поднять всю систему в docker compose (веб и API на http://localhost:8080)

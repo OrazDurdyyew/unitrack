@@ -19,7 +19,15 @@
         "box-shadow",
         "font-family",
         "font-size",
-        "border-radius"
+        "border-radius",
+        "border",
+        "padding",
+        "margin",
+        "gap",
+        "row-gap",
+        "column-gap",
+        "/^padding-/",
+        "/^margin-/"
       ],
       {
         "ignoreValues": [
@@ -33,7 +41,8 @@
           "unset",
           "auto"
         ],
-        "message": "Используйте токен из shared/ui/tokens.css (var(--…)), а не сырое значение"
+        "message": "Используйте токен из shared/ui/tokens.css (var(--…)), а не сырое значение",
+        "expandShorthand": true
       }
     ],
     "selector-class-pattern": [

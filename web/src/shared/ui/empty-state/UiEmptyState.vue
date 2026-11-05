@@ -18,7 +18,9 @@ defineProps<{ title: string; description?: string }>();
   align-items: center;
   padding: var(--space-8) var(--space-6);
   text-align: center;
-  border: 1px dashed var(--color-line-strong);
+  border-width: 1px;
+  border-style: dashed;
+  border-color: var(--color-line-strong);
   border-radius: var(--radius-md);
 }
 

@@ -41,7 +41,9 @@ const emit = defineEmits<{ click: [event: MouseEvent] }>();
   font-weight: 600;
   line-height: 1;
   white-space: nowrap;
-  border: 1px solid transparent;
+  border-width: 1px;
+  border-style: solid;
+  border-color: transparent;
   border-radius: var(--radius-sm);
   transition:
     background-color 0.12s,

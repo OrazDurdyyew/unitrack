@@ -65,7 +65,9 @@ const describedBy = (): string | undefined => {
   font-size: var(--font-size-md);
   color: var(--color-ink-900);
   background: var(--color-surface-default);
-  border: 1px solid var(--color-line-strong);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--color-line-strong);
   border-radius: var(--radius-sm);
   outline: none;
   transition: border-color 0.12s;

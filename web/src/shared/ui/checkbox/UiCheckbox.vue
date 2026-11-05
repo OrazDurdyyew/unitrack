@@ -36,7 +36,9 @@ const id = useId();
   height: 18px;
   padding: 0;
   background: var(--color-surface-default);
-  border: 1px solid var(--color-line-strong);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--color-line-strong);
   border-radius: var(--radius-xs);
 }
 

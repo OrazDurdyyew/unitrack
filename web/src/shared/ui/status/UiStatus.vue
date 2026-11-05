@@ -17,7 +17,7 @@ defineProps<{
   display: inline-flex;
   gap: var(--space-2);
   align-items: center;
-  padding: 3px var(--space-2) 3px 7px;
+  padding: var(--space-1) var(--space-2);
   font-size: var(--font-size-sm);
   font-weight: 600;
   line-height: 1.2;

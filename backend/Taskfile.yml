@@ -33,6 +33,7 @@ tasks:
   lint:
     desc: Линтер и проверка форматирования
     cmds:
+      - go mod tidy -diff
       - '{{.GOBIN}}/golangci-lint run ./...'
 
   test:

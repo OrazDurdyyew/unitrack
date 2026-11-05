@@ -20,7 +20,7 @@ src/shared/     ui/ (компоненты Ui*), api/ (клиент), lib/, confi
 - Только `<script setup lang="ts">`, Composition API. Пропсы — через `defineProps<…>()`, двусторонние — `defineModel`.
 - Никаких `any`. Никаких строк интерфейса в коде и шаблонах — только `t('…')` из `vue-i18n`, словарь `shared/i18n/ru.json` (`vue/no-bare-strings-in-template`).
 - Запросы к серверу — только в `entities/*/api` через `api` из `@/shared/api` (сгенерированные типы). Состояние серверных данных — только TanStack Query в `entities/*/model`. Pinia — для клиентского состояния (сессия, настройки интерфейса).
-- Стили: `<style scoped>`, классы по БЭМ `block__element--modifier`. Цвета, размеры шрифта, радиусы, тени, семейство шрифта — только `var(--…)` из `shared/ui/tokens.css`; stylelint падает на сыром значении. Новый токен: `design/tokens.json` → `task gen`.
+- Стили: `<style scoped>`, классы по БЭМ `block__element--modifier`. Цвета, размеры шрифта, радиусы, тени, семейство шрифта — только `var(--…)` из `shared/ui/tokens.css`; stylelint падает на сыром значении, в том числе внутри сокращений `border`, `padding`, `margin`, `gap`. Рамки писать longhand-свойствами (`border-width`, `border-style`, `border-color: var(--…)`): сокращение `border` с var() линтер не разбирает. Новый токен: `design/tokens.json` → `task gen`.
 - Компонент больше 200 строк делится. Права и роли — через `shared/lib/access` (появится на этапе 1), не разрозненными условиями.
 - Даты — через одну утилиту в `shared/lib/date` с поясом Asia/Ashgabat (этап 2).
 - Формы — схема zod + composable `shared/lib/form` (этап 2); vee-validate не используется.

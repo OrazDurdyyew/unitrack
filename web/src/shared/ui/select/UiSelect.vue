@@ -90,7 +90,9 @@ const stringModel = computed({
   font-size: var(--font-size-md);
   color: var(--color-ink-900);
   background: var(--color-surface-default);
-  border: 1px solid var(--color-line-strong);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--color-line-strong);
   border-radius: var(--radius-sm);
 }
 
@@ -116,7 +118,9 @@ const stringModel = computed({
   z-index: 50;
   min-width: var(--reka-select-trigger-width);
   background: var(--color-surface-default);
-  border: 1px solid var(--color-line-default);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--color-line-default);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
 }
