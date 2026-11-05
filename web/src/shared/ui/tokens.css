@@ -1,0 +1,39 @@
+/* Сгенерировано из design/tokens.json командой `task gen`. Не править руками. */
+:root {
+  --color-amber-50: #FFF4DD;
+  --color-amber-700: #9A6700;
+  --color-bg-default: #F4F6F5;
+  --color-green-100: #D4F0E2;
+  --color-green-50: #EAF7F0;
+  --color-green-600: #16A964;
+  --color-green-700: #12905A;
+  --color-ink-400: #8A978F;
+  --color-ink-500: #5E6E66;
+  --color-ink-700: #2B3A33;
+  --color-ink-900: #0B1F17;
+  --color-line-default: #E3E9E5;
+  --color-line-strong: #CBD5CF;
+  --color-red-50: #FDECEC;
+  --color-red-700: #B42318;
+  --color-surface-default: #FFFFFF;
+  --font-family-base: Inter, system-ui, sans-serif;
+  --font-size-2xl: 22px;
+  --font-size-lg: 15px;
+  --font-size-md: 13.5px;
+  --font-size-sm: 12px;
+  --font-size-xl: 18px;
+  --font-size-xs: 11px;
+  --radius-lg: 14px;
+  --radius-md: 10px;
+  --radius-sm: 6px;
+  --shadow-md: 0 8px 24px -12px rgba(11,31,23,.18);
+  --shadow-sm: 0 1px 2px rgba(11,31,23,.06);
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+}
