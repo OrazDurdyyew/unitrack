@@ -6,10 +6,14 @@ vars:
     sh: echo "$(go env GOPATH)/bin"
   VERSION:
     sh: git describe --tags --always --dirty 2>/dev/null || echo dev
+  GOVER:
+    sh: awk '/^go /{print $2}' go.mod
 
 tasks:
   tools:
-    desc: Установить инструменты Go (линтер, форматтер, sqlc, goose)
+    desc: Установить инструменты Go (линтер, форматтер, sqlc, goose) тем же toolchain, что в go.mod
+    env:
+      GOTOOLCHAIN: 'go{{.GOVER}}'
     cmds:
       - go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.6.2
       - go install mvdan.cc/gofumpt@v0.8.0
