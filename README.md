@@ -22,7 +22,7 @@ task dev     # поднять PostgreSQL, API и веб через docker compos
 task check   # генерация, линтеры, тесты — то, что проверяет CI
 ```
 
-Команды появляются по мере выполнения этапа 0, см. `docs/STATUS.md`.
+Перед первым запуском: `cp infra/.env.example infra/.env` и задать `POSTGRES_PASSWORD`; для локальных тестов бэкенда — `cp backend/.env.example backend/.env`. Состояние работ — в `docs/STATUS.md`.
 
 ## Документы
 
