@@ -1,0 +1,11 @@
+* text=auto eol=lf
+
+*.woff2 binary
+*.png binary
+*.jpg binary
+*.ico binary
+
+*.gen.go linguist-generated=true
+web/src/shared/api/schema.d.ts linguist-generated=true
+web/src/shared/ui/tokens.css linguist-generated=true
+pnpm-lock.yaml linguist-generated=true

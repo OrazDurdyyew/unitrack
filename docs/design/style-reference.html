@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UniTrack — предложение стиля</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-700: #12905A;
+    --green-600: #16A964;
+    --green-100: #D4F0E2;
+    --green-50:  #EAF7F0;
+    --ink-900: #0B1F17;
+    --ink-700: #2B3A33;
+    --ink-500: #5E6E66;
+    --ink-400: #8A978F;
+    --line: #E3E9E5;
+    --line-strong: #CBD5CF;
+    --bg: #F4F6F5;
+    --surface: #FFFFFF;
+    --amber-700: #9A6700; --amber-50: #FFF4DD;
+    --red-700: #B42318;   --red-50: #FDECEC;
+    --r-sm: 6px; --r-md: 10px; --r-lg: 14px;
+    --shadow-sm: 0 1px 2px rgba(11,31,23,.06);
+    --shadow-md: 0 8px 24px -12px rgba(11,31,23,.18);
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #E9EDEB; color: var(--ink-900); -webkit-font-smoothing: antialiased; }
+  .page { max-width: 1320px; margin: 0 auto; padding: 32px 24px 64px; }
+  .intro h1 { font-size: 22px; margin: 0 0 6px; letter-spacing: -.01em; }
+  .intro p { margin: 0 0 24px; color: var(--ink-500); font-size: 14px; max-width: 760px; line-height: 1.5; }
+
+  .stage { display: grid; grid-template-columns: 1fr 300px; gap: 28px; align-items: start; }
+  @media (max-width: 1100px) { .stage { grid-template-columns: 1fr; } }
+
+  /* ---------- браузерная рамка ---------- */
+  .browser { background: var(--surface); border-radius: 12px; box-shadow: 0 20px 60px -20px rgba(0,0,0,.35), 0 0 0 1px rgba(0,0,0,.06); overflow: hidden; }
+  .browser .chrome { height: 36px; background: #F2F4F3; border-bottom: 1px solid var(--line); display: flex; align-items: center; padding: 0 12px; gap: 6px; }
+  .browser .chrome i { width: 10px; height: 10px; border-radius: 50%; background: #D7DCD9; display: inline-block; }
+  .browser .chrome .url { margin-left: 12px; height: 22px; flex: 1; max-width: 420px; background: #fff; border: 1px solid var(--line); border-radius: 6px; font-size: 11px; color: var(--ink-400); display: flex; align-items: center; padding: 0 10px; }
+
+  .app { display: grid; grid-template-columns: 224px 1fr; min-height: 640px; background: var(--bg); }
+
+  .side { background: var(--surface); border-right: 1px solid var(--line); padding: 18px 12px; display: flex; flex-direction: column; }
+  .brand { display: flex; align-items: center; gap: 10px; padding: 4px 8px 18px; }
+  .brand .mark { width: 28px; height: 28px; border-radius: 8px; background: var(--green-600); display: grid; place-items: center; }
+  .brand .mark svg { width: 16px; height: 16px; }
+  .brand b { font-size: 15px; letter-spacing: -.01em; }
+  .brand small { display: block; font-size: 11px; color: var(--ink-400); font-weight: 400; margin-top: 1px; }
+  .nav-group { font-size: 10.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-400); padding: 14px 10px 6px; font-weight: 600; }
+  .nav { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: var(--r-sm); font-size: 13.5px; color: var(--ink-700); font-weight: 500; }
+  .nav svg { width: 16px; height: 16px; stroke: var(--ink-400); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .nav.on { background: var(--green-50); color: var(--green-700); }
+  .nav.on svg { stroke: var(--green-700); }
+  .nav .count { margin-left: auto; font-size: 11px; background: var(--green-600); color: #fff; padding: 1px 7px; border-radius: 999px; font-weight: 600; }
+  .side .user { margin-top: auto; display: flex; align-items: center; gap: 10px; padding: 10px; border-top: 1px solid var(--line); }
+  .side .user .ava { width: 30px; height: 30px; border-radius: 50%; background: var(--green-100); color: var(--green-700); display: grid; place-items: center; font-weight: 700; font-size: 12px; }
+  .side .user b { display: block; font-size: 13px; }
+  .side .user span { font-size: 11.5px; color: var(--ink-400); }
+
+  .main { padding: 24px 28px; min-width: 0; }
+  .crumbs { font-size: 12.5px; color: var(--ink-400); margin-bottom: 6px; }
+  .head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 20px; }
+  .head h2 { margin: 0; font-size: 22px; letter-spacing: -.015em; }
+  .head p { margin: 4px 0 0; color: var(--ink-500); font-size: 13.5px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px; border-radius: var(--r-sm); font-size: 13.5px; font-weight: 600; border: 1px solid transparent; }
+  .btn-primary { background: var(--green-600); color: #fff; box-shadow: var(--shadow-sm); }
+  .btn-ghost { background: var(--surface); color: var(--ink-700); border-color: var(--line-strong); }
+  .btn svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2.2; stroke-linecap: round; }
+
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
+  .kpi { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); padding: 14px 16px; box-shadow: var(--shadow-sm); }
+  .kpi small { display: block; font-size: 12px; color: var(--ink-500); margin-bottom: 8px; font-weight: 500; }
+  .kpi b { font-size: 24px; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+  .kpi .delta { font-size: 12px; margin-left: 8px; font-weight: 600; }
+  .kpi .up { color: var(--green-700); } .kpi .down { color: var(--red-700); }
+
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); box-shadow: var(--shadow-sm); overflow: hidden; }
+  .toolbar { display: flex; gap: 10px; padding: 12px 14px; border-bottom: 1px solid var(--line); align-items: center; }
+  .search { flex: 1; max-width: 300px; height: 34px; border: 1px solid var(--line-strong); border-radius: var(--r-sm); display: flex; align-items: center; gap: 8px; padding: 0 10px; color: var(--ink-400); font-size: 13px; }
+  .search svg { width: 14px; height: 14px; stroke: var(--ink-400); fill: none; stroke-width: 2; }
+  .chip { height: 34px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; border: 1px solid var(--line-strong); border-radius: var(--r-sm); font-size: 13px; color: var(--ink-700); background: var(--surface); }
+  .chip.active { border-color: var(--green-600); background: var(--green-50); color: var(--green-700); font-weight: 600; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th { text-align: left; font-size: 11.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-400); font-weight: 600; padding: 10px 14px; border-bottom: 1px solid var(--line); background: #FAFBFA; }
+  td { padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  tr:last-child td { border-bottom: 0; }
+  tr.sel td { background: var(--green-50); }
+  td .who { display: flex; align-items: center; gap: 10px; }
+  td .who .ava { width: 26px; height: 26px; border-radius: 50%; background: #EEF2F0; color: var(--ink-500); display: grid; place-items: center; font-size: 10.5px; font-weight: 700; }
+  td .muted { color: var(--ink-400); font-size: 12.5px; }
+  .status { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px 3px 7px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+  .status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .s-ok   { background: var(--green-50); color: var(--green-700); }
+  .s-wait { background: var(--amber-50); color: var(--amber-700); }
+  .s-rej  { background: var(--red-50);   color: var(--red-700); }
+  .s-draft{ background: #EEF2F0; color: var(--ink-500); }
+  .num { font-variant-numeric: tabular-nums; }
+  .bar { display: inline-block; width: 64px; height: 6px; background: #EEF2F0; border-radius: 3px; vertical-align: middle; margin-right: 8px; overflow: hidden; }
+  .bar i { display: block; height: 100%; background: var(--green-600); }
+  .pager { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; font-size: 12.5px; color: var(--ink-400); border-top: 1px solid var(--line); }
+
+  /* ---------- телефон ---------- */
+  .phone-wrap { position: sticky; top: 24px; }
+  .phone { width: 300px; height: 620px; background: #0B1F17; border-radius: 38px; padding: 10px; box-shadow: 0 30px 60px -20px rgba(0,0,0,.45); margin: 0 auto; }
+  .screen { background: var(--bg); border-radius: 30px; height: 100%; overflow: hidden; display: flex; flex-direction: column; position: relative; }
+  .sb { height: 28px; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; font-size: 11px; font-weight: 600; color: var(--ink-700); }
+  .appbar { padding: 6px 16px 10px; background: var(--surface); border-bottom: 1px solid var(--line); }
+  .appbar .row { display: flex; align-items: center; gap: 10px; }
+  .appbar h3 { margin: 0; font-size: 16px; letter-spacing: -.01em; }
+  .appbar .sub { font-size: 12px; color: var(--ink-500); margin-top: 2px; }
+  .offline { margin: 10px 12px 0; display: flex; align-items: center; gap: 8px; background: var(--amber-50); color: var(--amber-700); border-radius: var(--r-sm); padding: 7px 10px; font-size: 11.5px; font-weight: 600; }
+  .offline::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+  .progress { margin: 10px 12px 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); padding: 10px 12px; }
+  .progress .t { display: flex; justify-content: space-between; font-size: 12px; color: var(--ink-500); margin-bottom: 6px; }
+  .progress .t b { color: var(--ink-900); }
+  .progress .track { height: 6px; background: #EEF2F0; border-radius: 3px; overflow: hidden; }
+  .progress .track i { display: block; height: 100%; width: 72%; background: var(--green-600); }
+  .list { margin: 10px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); overflow: hidden; flex: 1; }
+  .stu { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+  .stu:last-child { border-bottom: 0; }
+  .stu .ava { width: 32px; height: 32px; border-radius: 50%; background: #EEF2F0; color: var(--ink-500); display: grid; place-items: center; font-size: 11px; font-weight: 700; flex: none; }
+  .stu .n { flex: 1; min-width: 0; }
+  .stu .n b { display: block; font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .stu .n span { font-size: 11px; color: var(--ink-400); }
+  .stu .n .lead { font-size: 10px; color: var(--green-700); background: var(--green-50); padding: 1px 6px; border-radius: 999px; font-weight: 600; margin-left: 4px; }
+  .seg { display: flex; border: 1px solid var(--line-strong); border-radius: var(--r-sm); overflow: hidden; flex: none; }
+  .seg i { width: 34px; height: 30px; display: grid; place-items: center; font-style: normal; font-size: 12px; font-weight: 700; color: var(--ink-400); }
+  .seg i.p { background: var(--green-600); color: #fff; }
+  .seg i.a { background: var(--red-700); color: #fff; }
+  .reason { font-size: 11px; color: var(--amber-700); background: var(--amber-50); padding: 2px 8px; border-radius: 999px; font-weight: 600; margin-left: 42px; margin-top: -4px; margin-bottom: 8px; display: inline-block; }
+  .cta { margin: 0 12px 14px; height: 46px; border-radius: var(--r-md); background: var(--green-600); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; box-shadow: 0 8px 20px -8px rgba(22,169,100,.6); }
+  .cta small { font-weight: 500; opacity: .85; margin-left: 8px; }
+
+  .notes { margin-top: 28px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 900px) { .notes { grid-template-columns: 1fr; } }
+  .note { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); padding: 16px 18px; }
+  .note h4 { margin: 0 0 6px; font-size: 14px; }
+  .note p { margin: 0; font-size: 13px; color: var(--ink-500); line-height: 1.5; }
+  .swatches { display: flex; gap: 8px; margin-top: 10px; }
+  .sw { width: 34px; height: 34px; border-radius: 8px; border: 1px solid rgba(0,0,0,.06); }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="intro">
+    <h1>Моё предложение: «тихий премиум»</h1>
+    <p>Один стиль для веба и Android. Светлая основа, много воздуха, глубокий зелёно-чёрный вместо чистого чёрного в тексте, ваш зелёный только там, где нужно действие или подтверждение. Ничего не кричит, но всё выглядит дорого и собранно. Слева веб-панель декана, справа экран замдекана на телефоне в офлайне.</p>
+  </div>
+
+  <div class="stage">
+    <div class="browser">
+      <div class="chrome"><i></i><i></i><i></i><div class="url">unitrack.institute.local/reports</div></div>
+      <div class="app">
+        <aside class="side">
+          <div class="brand">
+            <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+            <div><b>UniTrack</b><small>Институт экономики</small></div>
+          </div>
+          <div class="nav"><svg viewBox="0 0 24 24"><path d="M3 12h7V3H3zM14 21h7v-9h-7zM14 3h7v5h-7zM3 16h7v5H3z"/></svg>Главная</div>
+          <div class="nav on"><svg viewBox="0 0 24 24"><path d="M9 3h9l3 3v15H6V3zM9 13h6M9 17h6"/></svg>Отчёты<span class="count">7</span></div>
+          <div class="nav"><svg viewBox="0 0 24 24"><path d="M4 7h12M4 12h16M4 17h8"/></svg>Запросы на изменение</div>
+          <div class="nav"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Студенты</div>
+          <div class="nav-group">Администрирование</div>
+          <div class="nav"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>Справочники</div>
+          <div class="nav"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg>Аудит</div>
+          <div class="user"><div class="ava">МА</div><div><b>Мерген Атаев</b><span>Декан · Факультет экономики</span></div></div>
+        </aside>
+
+        <section class="main">
+          <div class="crumbs">Факультет экономики / Отчёты</div>
+          <div class="head">
+            <div><h2>Отчёты о посещаемости</h2><p>Четверг, 6 ноября 2026 · 7 отчётов ожидают вашего решения</p></div>
+            <div style="display:flex;gap:10px">
+              <span class="btn btn-ghost"><svg viewBox="0 0 24 24"><path d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16"/></svg>Экспорт</span>
+              <span class="btn btn-primary"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Новый отчёт</span>
+            </div>
+          </div>
+
+          <div class="kpis">
+            <div class="kpi"><small>Отчётов сегодня</small><b class="num">42</b><span class="delta up">+3</span></div>
+            <div class="kpi"><small>Ожидают решения</small><b class="num">7</b></div>
+            <div class="kpi"><small>Присутствие</small><b class="num">96,9%</b><span class="delta up">+0,4</span></div>
+            <div class="kpi"><small>Без документа</small><b class="num">11</b><span class="delta down">+2</span></div>
+          </div>
+
+          <div class="panel">
+            <div class="toolbar">
+              <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>Поиск по группе или автору</div>
+              <span class="chip active">Ожидают · 7</span>
+              <span class="chip">Все</span>
+              <span class="chip">Утро</span>
+              <span class="chip">Вечер</span>
+              <span class="chip" style="margin-left:auto">6 ноя 2026</span>
+            </div>
+            <table>
+              <thead><tr><th>Группа</th><th>Тип</th><th>Автор</th><th>Присутствие</th><th>Статус</th><th>Обновлён</th></tr></thead>
+              <tbody>
+                <tr class="sel"><td><b>ЭК-21</b> <span class="muted">· 28 студ.</span></td><td>Утренняя проверка</td><td><div class="who"><div class="ava">ГБ</div>Гульнара Бердыева</div></td><td><span class="bar"><i style="width:93%"></i></span><span class="num">26 / 28</span></td><td><span class="status s-wait">У декана</span></td><td class="muted">08:14</td></tr>
+                <tr><td><b>ЭК-22</b> <span class="muted">· 30 студ.</span></td><td>Утренняя проверка</td><td><div class="who"><div class="ava">ГБ</div>Гульнара Бердыева</div></td><td><span class="bar"><i style="width:100%"></i></span><span class="num">30 / 30</span></td><td><span class="status s-wait">У декана</span></td><td class="muted">08:21</td></tr>
+                <tr><td><b>МН-12</b> <span class="muted">· 25 студ.</span></td><td>Утренняя проверка</td><td><div class="who"><div class="ava">ДР</div>Довлет Реджепов</div></td><td><span class="bar"><i style="width:88%"></i></span><span class="num">22 / 25</span></td><td><span class="status s-wait">У декана</span></td><td class="muted">08:30</td></tr>
+                <tr><td><b>ФК-31</b> <span class="muted">· 27 студ.</span></td><td>Вечерняя проверка</td><td><div class="who"><div class="ava">АМ</div>Айна Мырадова</div></td><td><span class="bar"><i style="width:96%"></i></span><span class="num">26 / 27</span></td><td><span class="status s-ok">Утверждён</span></td><td class="muted">вчера, 21:05</td></tr>
+                <tr><td><b>МН-11</b> <span class="muted">· 29 студ.</span></td><td>Субботник</td><td><div class="who"><div class="ava">ДР</div>Довлет Реджепов</div></td><td><span class="bar"><i style="width:79%"></i></span><span class="num">23 / 29</span></td><td><span class="status s-rej">Возвращён</span></td><td class="muted">вчера, 17:40</td></tr>
+                <tr><td><b>ЭК-11</b> <span class="muted">· 31 студ.</span></td><td>Утренняя проверка</td><td><div class="who"><div class="ava">ГБ</div>Гульнара Бердыева</div></td><td><span class="bar"><i style="width:0"></i></span><span class="muted">—</span></td><td><span class="status s-draft">Черновик</span></td><td class="muted">08:02</td></tr>
+              </tbody>
+            </table>
+            <div class="pager"><span>Показано 6 из 42</span><span>‹ 1 2 3 … 7 ›</span></div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="phone-wrap">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>08:12</span><span>▮▮▮ ⌁</span></div>
+        <div class="appbar">
+          <div class="row"><span style="color:var(--ink-400)">‹</span><div><h3>ЭК-21 · Утренняя проверка</h3><div class="sub">6 ноября · Общежитие №2</div></div></div>
+        </div>
+        <div class="offline">Нет сети · сохраняется на телефоне</div>
+        <div class="progress"><div class="t"><span>Отмечено</span><b>20 из 28</b></div><div class="track"><i></i></div></div>
+        <div class="list">
+          <div class="stu"><div class="ava">АА</div><div class="n"><b>Аманов Азат<span class="lead">лидер</span></b><span>№ 2021-0417</span></div><div class="seg"><i class="p">✓</i><i>✕</i></div></div>
+          <div class="stu"><div class="ava">БМ</div><div class="n"><b>Бабаева Марал</b><span>№ 2021-0418</span></div><div class="seg"><i class="p">✓</i><i>✕</i></div></div>
+          <div class="stu" style="border-bottom:0;padding-bottom:4px"><div class="ava">ГС</div><div class="n"><b>Гурбанов Сердар</b><span>№ 2021-0419</span></div><div class="seg"><i>✓</i><i class="a">✕</i></div></div>
+          <div style="border-bottom:1px solid var(--line)"><span class="reason">Болезнь, справка есть</span></div>
+          <div class="stu"><div class="ava">ДЛ</div><div class="n"><b>Дурдыева Лейли</b><span>№ 2021-0420</span></div><div class="seg"><i class="p">✓</i><i>✕</i></div></div>
+          <div class="stu"><div class="ava">ЁГ</div><div class="n"><b>Ёлдашев Гуванч</b><span>№ 2021-0421</span></div><div class="seg"><i>✓</i><i>✕</i></div></div>
+          <div class="stu"><div class="ava">КО</div><div class="n"><b>Керимова Огулгерек</b><span>№ 2021-0422</span></div><div class="seg"><i>✓</i><i>✕</i></div></div>
+        </div>
+        <div class="cta">Отправить <small>20 / 28</small></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="notes">
+    <div class="note">
+      <h4>Палитра</h4>
+      <p>Зелёный #16A964 — действия и подтверждение. Текст не чёрный, а глубокий зелёно-чёрный, от этого экран кажется тёплее и собраннее. Янтарный — ожидание, красный — отказ и отсутствие.</p>
+      <div class="swatches">
+        <div class="sw" style="background:#16A964"></div><div class="sw" style="background:#12905A"></div><div class="sw" style="background:#EAF7F0"></div><div class="sw" style="background:#0B1F17"></div><div class="sw" style="background:#5E6E66"></div><div class="sw" style="background:#F4F6F5;border-color:#CBD5CF"></div><div class="sw" style="background:#FFF4DD"></div><div class="sw" style="background:#FDECEC"></div>
+      </div>
+    </div>
+    <div class="note">
+      <h4>Форма</h4>
+      <p>Радиусы 6 / 10 / 14 px, границы в один пиксель, тени почти незаметные. Шрифт Inter, цифры моноширинные, чтобы колонки выравнивались. Статусы — цветная точка плюс слово, читается и без цвета.</p>
+    </div>
+    <div class="note">
+      <h4>Телефон</h4>
+      <p>Тот же язык: те же токены, та же типографика. Большие цели для пальца, одно главное действие внизу, состояние офлайна всегда видно, но не пугает.</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>
