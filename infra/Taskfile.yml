@@ -1,0 +1,26 @@
+# Команды инфраструктуры. Вызываются из корня как `task infra:<имя>`. Требуют infra/.env.
+version: '3'
+
+tasks:
+  up:
+    desc: Собрать образы и поднять PostgreSQL, API и веб
+    preconditions:
+      - sh: test -f .env
+        msg: "Нет infra/.env — скопируйте infra/.env.example и задайте POSTGRES_PASSWORD"
+    cmds:
+      - docker compose --env-file .env up -d --build
+
+  down:
+    desc: Остановить контейнеры (данные базы сохраняются в томе)
+    cmds:
+      - docker compose --env-file .env down
+
+  logs:
+    desc: Логи API
+    cmds:
+      - docker compose --env-file .env logs -f api
+
+  ps:
+    desc: Состояние контейнеров
+    cmds:
+      - docker compose --env-file .env ps

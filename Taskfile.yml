@@ -14,7 +14,6 @@ includes:
   infra:
     taskfile: ./infra
     dir: ./infra
-    optional: true
 
 tasks:
   setup:
@@ -22,6 +21,7 @@ tasks:
     cmds:
       - task: backend:tools
       - task: web:install
+      - '"$(go env GOPATH)/bin/lefthook" install'
 
   gen:
     desc: Сгенерировать всё, что генерируется (токены, код из контракта)
@@ -58,6 +58,8 @@ tasks:
       - pnpm --package=@redocly/cli@2 dlx redocly lint api/openapi.yaml
 
   dev:
-    desc: Запустить окружение разработки
+    desc: Поднять всю систему в docker compose (веб и API на http://localhost:8080)
     cmds:
-      - task: backend:dev
+      - task: infra:up
+      - cmd: echo "веб http://localhost:8080 , API http://localhost:8080/api/v1/health"
+        silent: true

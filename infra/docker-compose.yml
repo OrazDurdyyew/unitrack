@@ -1,0 +1,59 @@
+# UniTrack на одной машине института: PostgreSQL, API, nginx со статикой веба.
+# Запуск: task infra:up (см. infra/README.md). Секреты — в infra/.env.
+name: unitrack
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: unitrack
+      POSTGRES_USER: unitrack
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?задайте POSTGRES_PASSWORD в infra/.env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    # Порт наружу не публикуется: база доступна только контейнерам этой сети.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U unitrack -d unitrack"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build:
+      context: ../backend
+      args:
+        VERSION: ${UNITRACK_VERSION:-dev}
+    restart: unless-stopped
+    environment:
+      UNITRACK_DATABASE_URL: postgres://unitrack:${POSTGRES_PASSWORD}@postgres:5432/unitrack?sslmode=disable
+      UNITRACK_HTTP_ADDR: ":8080"
+      UNITRACK_LOG_LEVEL: ${UNITRACK_LOG_LEVEL:-info}
+      UNITRACK_ENV: ${UNITRACK_ENV:-production}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      # distroless без curl: бинарник сам опрашивает свой /api/v1/ready
+      test: ["CMD", "/api", "-healthcheck"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  web:
+    build:
+      context: ..
+      dockerfile: infra/web.Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${UNITRACK_HTTP_PORT:-8080}:80"
+    volumes:
+      - apk:/srv/apk:ro
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  apk:
