@@ -1,0 +1,19 @@
+# Контекст сборки web.Dockerfile — корень репозитория. В образ не должны попадать:
+.git
+.github
+.superpowers
+.claude
+docs
+android
+infra/*
+!infra/nginx
+backend
+**/.env
+**/.env.*
+!**/.env.example
+**/node_modules
+web/dist
+web/coverage
+web/test-results
+web/playwright-report
+*.log

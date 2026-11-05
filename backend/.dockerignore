@@ -1,0 +1,8 @@
+# Контекст сборки backend/Dockerfile
+.env
+.env.*
+!.env.example
+bin/
+tmp/
+*.log
+*_test.go
